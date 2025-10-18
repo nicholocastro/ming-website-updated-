@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Love, Ming</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="logged-out">
+
+  <!-- 💜 LOGIN PAGE -->
+  <div class="login-page">
+    <div class="login-container">
+      <h2>Welcome 💜</h2>
+      <p>Enter your name and password to continue</p>
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Enter your name" />
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Enter password" />
+        <span class="toggle-password" onclick="togglePassword()">👁️</span>
+      </div>
+      <p id="error" class="error">Invalid name or password</p>
+      <button id="loginBtn">Login</button>
+    </div>
+  </div>
+
+  <!-- 🌸 NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="logo">💜 For Ming</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#memories">Memories</a></li>
+      <li><a href="#reasons">Reasons</a></li>
+      <li><a href="#message">Message</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#ending">Ending</a></li>
+      <li><button id="musicBtn" class="music-nav-btn">🎵 Play Music</button></li>
+    </ul>
+  </nav>
+
+  <!-- BACKGROUND MUSIC -->
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg" />
+    Your browser does not support the audio tag.
+  </audio>
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="hero-content fade-in">
+      <h1>For My Love, <span>Ming</span></h1>
+      <p id="typeText"></p>
+    </div>
+  </header>
+
+  <!-- ABOUT HER -->
+  <section id="about" class="about fade-in">
+    <h2>About Her</h2>
+    <p>She’s the most beautiful person — inside and out. Her smile lights up every moment we share.</p>
+  </section>
+
+  <!-- OUR MEMORIES -->
+  <section id="memories" class="memories fade-in">
+    <h2>Our Memories</h2>
+    <p>“Even in silence, being with you feels like music.”</p>
+  </section>
+
+  <!-- REASONS I LOVE YOU -->
+  <section id="reasons" class="reasons fade-in">
+    <h2>Reasons Why I Love You</h2>
+    <ul>
+      <li>Your smile makes everything better.</li>
+      <li>You understand me like no one else.</li>
+      <li>You make every day special.</li>
+    </ul>
+  </section>
+
+  <!-- MESSAGE -->
+  <section id="message" class="message fade-in">
+    <h2>Message for You</h2>
+    <p>Dear Ming, you’re the reason behind my happiest moments.  
+       I’ll always be here, loving you quietly and endlessly. </p>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="gallery fade-in">
+    <h2>Gallery</h2>
+    <div class="photos">
+      <img src="images/ming1.jpg" alt="Ming Picture 1" />
+      <img src="images/ming2.jpg" alt="Ming Picture 2" />
+      <img src="images/ming3.jpg" alt="Ming Picture 3" />
+      <img src="images/ming4.jpg" alt="Ming Picture 4" />
+      <img src="images/ming5.jpg" alt="Ming Picture 5" />
+      <img src="images/ming6.jpg" alt="Ming Picture 6" />
+    </div>
+  </section>
+
+  <!-- 💌 ENDING SECTION -->
+  <section id="ending" class="fade-in">
+    <h2>Forever yours, <span>Nico 💜</span></h2>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Made with 💜 by Nico for Ming</p>
+  </footer>
+
+  <!-- 💫 JS SCRIPTS -->
+  <script>
+    // 🎵 MUSIC CONTROL
+    const musicBtn = document.getElementById("musicBtn");
+    const bgMusic = document.getElementById("bgMusic");
+    let isPlaying = false;
+
+    musicBtn.addEventListener("click", () => {
+      if (!isPlaying) {
+        bgMusic.play();
+        musicBtn.textContent = "⏸️ Pause Music";
+        isPlaying = true;
+      } else {
+        bgMusic.pause();
+        musicBtn.textContent = "🎵 Play Music";
+        isPlaying = false;
+      }
+    });
+
+    // 💬 TYPING ANIMATION
+    const text = "You make my world a little brighter every day.";
+    let i = 0;
+    function typeEffect() {
+      if (i < text.length) {
+        document.getElementById("typeText").textContent += text.charAt(i);
+        i++;
+        setTimeout(typeEffect, 70);
+      }
+    }
+    typeEffect();
+
+    // 📸 GALLERY ZOOM EFFECT
+    const photos = document.querySelectorAll('.photos img');
+    let overlay = null;
+    let zoomedImg = null;
+
+    photos.forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (zoomedImg === img) {
+          closeZoom();
+          return;
+        }
+        closeZoom();
+        overlay = document.createElement('div');
+        overlay.classList.add('zoom-overlay');
+        document.body.appendChild(overlay);
+        const zoomedClone = img.cloneNode(true);
+        zoomedClone.classList.add('zoomed-image');
+        document.body.appendChild(zoomedClone);
+        zoomedImg = zoomedClone;
+        overlay.addEventListener('click', closeZoom);
+      });
+    });
+
+    function closeZoom() {
+      if (overlay) overlay.remove();
+      if (zoomedImg) zoomedImg.remove();
+      overlay = null;
+      zoomedImg = null;
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeZoom();
+    });
+
+    // 🔐 LOGIN SYSTEM
+    const loginBtn = document.getElementById("loginBtn");
+    const errorMsg = document.getElementById("error");
+
+    loginBtn.addEventListener("click", () => {
+      const username = document.getElementById("username").value.trim().toLowerCase();
+      const password = document.getElementById("password").value.trim();
+
+      if (username === "ming" && password === "iloveyou") {
+        document.body.classList.remove("logged-out");
+        document.querySelector(".login-page").style.display = "none";
+      } else {
+        errorMsg.style.display = "block";
+      }
+    });
+
+    function togglePassword() {
+      const pwField = document.getElementById("password");
+      pwField.type = pwField.type === "password" ? "text" : "password";
+    }
+  </script>
+</body>
+</html>
